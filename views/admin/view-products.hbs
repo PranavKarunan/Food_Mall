@@ -1,0 +1,66 @@
+
+<section>
+  <div class="container">
+    
+    <div class="row">
+      <h3 class="mx-auto mt-5">List of products</h3>
+      <a href="/admin/add_product" class="btn btn-success mr-5 mt-5">Add Product</a>
+    </div>
+    {{#if remove}}
+        <p style="color: green;">Product removed Successfully</p>
+        {{/if}}
+    <div class="table mt-5">
+
+    <table id="product_table" class="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">Number</th>
+          <th scope="col">Title</th>
+          <th scope="col">Category</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th>Image</th>
+          {{!-- <th scope="col">Image</th> --}}
+          
+          <th  scope="col">Edit/Delete</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {{#each products}}
+          <tr>
+            <td>{{inc @index}}</td>
+            <td>{{this.Name}}</td>
+            <td>{{this.category.category}}</td>
+            <td>{{this.Price}}</td>
+            <td>{{this.Quantity}}</td>
+            <td><img style="height: 100px; width: 100px;" src="/img/{{this.images.files.[0]}}" alt=""></td>
+
+            {{!-- <td><img
+                style="width: 50px; height: 50px"
+                src="/product-images/{{this._id}}.jpg"
+                alt=""
+              /></td> --}}
+            <td>
+
+              <a href="/admin/edit-product/{{this._id}}" class="btn btn-primary">Edit</a>
+              <a href="/admin/delete-product/{{this._id}}" class="btn btn-danger" onclick="return confirm('Are you sure want to delete {{this.Name}}')">Delete</a>
+
+            </td>
+            
+          </tr>
+        {{/each}}
+        
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+  <script type="text/javascript" charset="utf8"
+        src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+                                          
+    <script>
+        $(function () {
+            $("#product_table").dataTable();
+        });
+    </script>

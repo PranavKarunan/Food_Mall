@@ -1,0 +1,238 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    
+        <!-- Content -->
+        <div class="content">
+            <!-- Animated -->
+            <div class="animated fadeIn">
+                <!-- Widgets  -->
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-widget-five">
+                                    <div class="stat-icon dib flat-color-1">
+                                        <i class="pe-7s-cash"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="text-left dib">
+                                            <div class="stat-text">₹<span class="count">{{revenue}}</span></div>
+                                            <div class="stat-heading">Revenue</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-widget-five">
+                                    <div class="stat-icon dib flat-color-2">
+                                        <i class="pe-7s-cart"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="text-left dib">
+                                            <div class="stat-text"><span class="count">{{totalSale}}</span></div>
+                                            <div class="stat-heading">Sales</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-widget-five">
+                                    <div class="stat-icon dib flat-color-3">
+                                        <i class="pe-7s-browser"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="text-left dib">
+                                            <div class="stat-text"><span class="count">{{productsCount}}</span></div>
+                                            <div class="stat-heading">Products</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-widget-five">
+                                    <div class="stat-icon dib flat-color-4">
+                                        <i class="pe-7s-users"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="text-left dib">
+                                            <div class="stat-text"><span class="count">{{usersCount}}</span></div>
+                                            <div class="stat-heading">Clients</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Widgets -->
+     
+     
+      <!-- /graph expense chart -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+
+            <div class="card text-center">
+        <h1 class="mt-5">Revenue Chart</h1>
+        <canvas class="mt-5" id="myGraph"></canvas>
+     
+        </div>
+            </div>
+          <!-- /graph status chart -->
+          <div class="col-md-6">
+
+        <div class="card text-center mt-5" style="width: 30rem;">
+        <h1 class="mt-2">Order status Chart</h1>
+        <canvas class="mt-5" id="myGraph2"></canvas>
+      </div> 
+    </div>
+          </div>
+     </div> 
+
+
+
+      
+    
+     
+
+
+
+
+
+
+               
+                
+                <!-- Orders -->
+                <div class="orders mt-5 w-100 mx-auto">
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="box-title">Latest Orders </h4>
+                                </div>
+                                <div class="card-body--">
+                                    <div class="table-stats order-table ov-h">
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Product</th>
+                                                    <th>Quantity</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    {{#each allOrders}}
+                                                <tr>
+                                                    <td >{{inc @index}}</td>
+                                                   
+                                                    <td> {{this._id}} </td>
+                                                    <td>  <span class="name">{{this.userLookup.firstName}}</span> </td>
+                                                    <td> <span class="product">{{this.result.Name}}</span> </td>
+                                                    <td><span class="count">{{this.products.quantity}}</span></td>
+                                                    <td>
+                                                         {{#if this.products.delivered}}
+                                                        <span class="badge badge-complete">Complete</span>
+                                                        {{else if this.products.cancelled}}
+                                                        <span class="badge badge-danger">Cancelled</span>
+                                                        {{else if this.products.shipped}}
+                                                        <span class="badge badge-primary">Shipped</span>
+                                                        {{else}}
+                                                        <span class="badge badge-dark">Pending</span>
+                                                        {{/if}}
+                                                    </td>
+                                                </tr>
+                                                    {{/each}}
+                                                
+                                            </tbody>
+                                        </table>
+                                        <a class="ml-5 btn btn-primary" href="/admin/orders">View all Orders</a>
+                                    </div> <!-- /.table-stats -->
+                                </div>
+                            </div> <!-- /.card -->
+                        </div>  <!-- /.col-lg-8 -->
+
+                       
+               
+               
+                
+
+                  
+                  
+                </div>
+               
+                </div>
+            </div>
+        </footer>
+        <!-- /.site-footer -->
+    </div>
+    <!-- /#right-panel -->
+
+
+
+    <script type="text/javascript">
+
+    var ctx = document.getElementById('myGraph').getContext('2d');
+    var myGraph = new Chart(ctx, {
+       
+        type: 'bar',
+        data: {
+            labels: ['COD', 'Razorpay'],
+            datasets: [{
+                label: 'Payment methods',
+                data: [{{ paymentData }}],
+            backgroundColor: [
+                'rgba(52, 235, 219, 1)',
+                'rgba(26, 36, 235, 1)',
+                'rgba(227, 14, 78, 1)'
+            ],
+        }]
+    },
+        options: {
+        responsive: true,
+    },
+    
+    });
+    var myGraph2 = document.getElementById('myGraph2').getContext('2d');
+    var myChart = new Chart(myGraph2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Pending', 'Shipped', 'Delivered', 'Cancelled'],
+            datasets: [{
+                label: ' Status',
+                data: [{{ statusData }}],
+            backgroundColor: [
+                'rgba(9, 38, 133, 1)',
+                'rgba(247, 12, 36, 1)',
+                'rgba(108, 189, 15, 1)',
+                'rgba(247, 37, 226, 1)',
+            ],
+        }]
+    },
+        options: {
+        responsive: true,
+    }
+    });
+
+
+
+
+
+</script>

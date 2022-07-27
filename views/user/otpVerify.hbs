@@ -1,0 +1,15 @@
+<div class="container">
+    <form action="/otpvalidation" method="post">
+    <label for="otp">Enter Your otp:</label>
+    <input type="number" name="otp" id="otp" required minlength="6" maxlength="6">
+    <button
+    type="submit"
+    class="btn btn-outline-primary"
+    >
+    Submit
+    </button>
+    </form>
+    {{#if otpErr}}
+    <p  style="color: red; font-size: small;" >Incorrect otp</p>
+    {{/if}}
+</div>

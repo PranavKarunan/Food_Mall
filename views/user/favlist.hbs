@@ -1,0 +1,114 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/"><i class="fa fa-home"></i> Home</a>
+                    <span>Favourite List</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Shop Cart Section Begin -->
+<section class="shop-cart spad">
+
+    <div class="container" id="wish_list_Container">
+        <div class="row">
+            <div class="col-lg-12 mb-4 shadow">
+                <div class="shop_cart_table">
+                    <table>
+                        <thead>
+                            <tr sty>
+                                <th>Product</th>
+                                <th>Price</th>
+                            
+
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each favList}}
+
+                            <tr id="cart-row{{this.product}}">
+
+                                <td class="cart_product_item">
+                                    <img style="height: 110px; wedth:110px;"
+                                        src="/img/{{this.productLookup.images.files.[0]}} alt="">
+                                    <div class="cart_productitem_title">
+                                        <h6>{{this.productLookup.Name}}</h6>
+                                        <div class="rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                    </div>
+                                </td>
+
+
+                                <td class="cart__price"><span
+                                        id="productPrice{{this.cartItems.product}}">{{this.productLookup.Price}}</span>
+                                </td>
+                             
+
+                                <td>
+                                    <button onclick="addToCart('{{this.productLookup._id}}',{{this.productLookup.Price}})')" type="submit"
+                                        class="proceed_to_checkout">
+                                        Add To cart
+                                    </button>
+
+                                </td>
+
+                                <td class="cart__close"><button class="cart-remove-btn mr-5"
+                                        onclick="delete_Product('{{this.productLookup._id}}')"><span
+                                            class="icon_close "></span></button></td>
+                            </tr>
+                            {{/each}}
+
+                            {{!-- sweet alert starts --}}
+                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+                            <script src="sweetalert2/dist/sweetalert2.all.min.js"></script>
+                            <!-- Include a polyfill for ES6 Promises (optional) for IE11 -->
+                            <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+
+                            <script>
+                                swal("Are you sure you want to do this?", {
+                                    buttons: ["Oh noez!", true],
+                                });
+                            </script>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="cart__btn">
+                    <a href="/products">Continue Shopping</a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="cart_btn update_btn">
+                    <a href="#"><span class="icon_loading"></span> Update cart</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+<!-- Shop Cart Section End -->
+

@@ -1,0 +1,259 @@
+<style>
+    .card-registration .select-input.form-control[readonly]:not([disabled]) {
+font-size: 1rem;
+line-height: 2.15;
+padding-left: .75em;
+padding-right: .75em;
+}
+.card-registration .select-arrow {
+top: 13px;
+}
+</style>
+
+
+
+<section class="h-100" style="">
+  <div class="container py-5 h-100">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="card">
+
+          {{#each address}}
+      <div class="card">
+  <div class="card-body" style="background-color: rgb(101, 92, 92); border-radius: 20px;">
+    <input type="radio" required name="address" id="address" form="checkout-form" value="{{address._id}}">
+    <h5 class="card-title"> Address {{inc @index}} </h5>
+    <h6 class="card-subtitle mb-2">{{address.firstName}}</h6>
+    <p class="card-text" >{{address.homeAddress}} <br> {{address.landMark}} <br> {{address.pincode}} <br> {{address.area}} <br> Contact number:{{address.mobNumber}} </p>
+   
+    
+  </div>
+</div>
+      {{/each}}
+          </div>
+      </div>
+     <div class="text-center">
+        <!-- Simple link -->
+        <a data-toggle="modal" data-target="#exampleModal" href="">Add New Address</a>
+      </div>
+        </div>
+        
+     
+      
+    
+      <div class="col-md-4" style="background-color: cyan;">
+        <div class="container my-5 mt-2 ml-5 checkout ">
+          <form action="" id="checkout-form">
+
+          <div class="payment">
+            <h5>Total Amount: {{this.total}}</h5>
+          <hr>
+          
+            <label for="">Enter your Coupon Code</label>
+            <input name="couponCode" id="coupon" type="text" value="" placeholder="Type coupon code here">
+            <input type="" name="total" id="total" value="{{this.total}}" hidden>
+            <a class="btn btn-danger btn-sm " onclick="applyCoupon()">Apply</a>
+            <div>
+              
+                
+              
+              <p class="text text-danger">Net Amount : <span id="payAmount">{{this.total}}</span> </p>
+             
+              <input type="text" value="{{this.total}}" id="netAmount" form="checkout-form" hidden name="netAmount">
+             
+            </div>
+            
+            <p>Payment Method :</p>
+            <label for="payment type" class="radio-inline">
+              <input type="radio"  form="checkout-form" name="payment-method" value="COD" ><span> Cash on Delivery</span>
+            </label>
+            <br>
+            <label for="payment type" class="radio-inline">
+              <input type="radio" form="checkout-form" name="payment-method" value="Online Payment"  ><span> Online Payment</span>
+            </label>
+            
+            <div class="button mt-4 mx-auto">
+ 
+             <button form="checkout-form" type="submit" class="btn btn-warning mx-4">Save & Continue</button>
+            </div>
+          </div>
+          </form>
+          
+        </div>
+      </div>
+   
+    </div>
+  </div>
+</section>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLabel">Add new address</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container rounded bg-white  mb-5">
+    <form class="row name="userProfile" id="userProfile" action="/profile" method="post">
+      
+        <div class="border-right">
+            <div class="p-3 py-5">
+               
+
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label class="labels">Name</label>
+                        <input type="text" class="form-control" name="fname" placeholder="first name" value="{{User.firstName}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">Surname</label>
+                        <input type="text" name="lname" class="form-control" value="{{User.lastName}}" placeholder="surname">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="number" name="phone"
+                            required class="form-control" placeholder="enter phone number" value="{{User.phonenumber}}">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Address</label>
+                        <input type="text" name="homeAddress" required class="form-control"
+                            placeholder="enter address" value="">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Land Mark</label>
+                        <input type="text" name="landMark" required class="form-control" placeholder="enter Land Mark"
+                            value="">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Pincode</label>
+                        <input type="text"  required class="form-control" name="pincode" placeholder="enter pincode" value="">
+                        <label class="labels">Area</label>
+                        <input type="text" required  name="area" class="form-control" placeholder="enter Area" value=""></div>
+                    <div class="col-md-12">
+                        <label class="labels">Email ID</label>
+                        <input type="email" required class="form-control" placeholder="enter email id" value="{{User.email}}">
+                    </div>
+                    </div>
+                    
+                     
+
+                
+               
+                <div class="mt-5 text-center">
+                    <button class="btn btn-primary profile-button" type="submit" value="Submit">Save Profile</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+    </form>
+
+
+</div>
+      </div>
+     
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  $("#checkout-form").submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+      url:'/checkout',
+      method:'post',
+      data:$('#checkout-form').serialize(),
+      success:(response)=>{
+        
+        
+
+        if(response.codSuccess){
+          location.href='/orderplaced'
+        }else{
+          razorpayPayment(response)
+        }
+      }
+    })
+  })
+  function razorpayPayment(order){
+    console.log(order)
+    var options = {
+    "key": "rzp_test_VtDv97YBk9R5E6",            // Enter the Key ID generated from the Dashboard
+    "amount": order.amount,                      // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Food_Mall",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id,                        //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        
+
+        verifyPayment(response,order)
+    },
+    "prefill": {
+        "name": "Pranav",
+        "email": "pranav@example.com",
+        "contact": "6282660588"
+    },
+    "notes": {
+        "address": "Food_Mall pvt.ltd"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+  
+};
+  var rzp1 = new Razorpay(options);
+  rzp1.open();
+  }
+  function verifyPayment(payment,order){
+    $.ajax({
+      url:'/verify-payment',
+      data:{
+        payment,
+        order
+      },
+      method:'post',
+      success:(response)=>{
+        if(response.status){
+          location.href = '/orderplaced'
+        }else{
+          alert('payment failed')
+        }
+      }
+    })
+  }
+
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/
+    jquery/3.3.1/jquery.min.js">
+    </script>
+   
+ <script>
+   $("#userProfile").validate();
+</script>
+
+
+
+
+
+
+
+
+
+  

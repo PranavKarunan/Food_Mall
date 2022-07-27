@@ -1,0 +1,95 @@
+<!-- food section -->
+
+<section class="food_section layout_padding-bottom">
+  <div class="container-fluid">
+    <div class="row">
+
+    <div class="heading_container ps-3 heading_center mt-5 col-md-9">
+      <h2 style="padding-left: 305px;">
+        Our Menu
+      </h2>
+    </div>
+      <div class="input-group col-md-3 mt-5">
+      
+            <input class="form-control  border rounded-pill" placeholder="search"  name="search" type="text" value="" id="search">
+            <span class="input-group-append">
+                <button class="btn btn-outline-secondary bg-white border-start-0  border rounded-pill ms-n3" onclick="searchpdts()">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+           
+     </div>
+    </div>
+
+
+
+      <div category>
+        <div class="row" style="justify-content: center; margin: 20px;">
+
+      <a class="buttn" href="/products">All</a>
+      {{#each categories}}
+     
+     <a class="buttn ml-4" href="/products?id={{this._id}}">{{this.category}}</a>
+     
+      {{/each}}
+        </div>
+      </div>
+    
+
+    <div id="categ-filter" class="container">
+      <div class="row">
+        {{#each products}}
+           <div class="col-sm-6 col-lg-4 all pizza">
+            <div class="box">
+              <div>
+                <div class="img-box">
+                  <li><a href="#" onclick="addToFavorites('{{this._id}}')"><span class="icon_heart_alt"></span></a></li>
+                  <img src="/img/{{this.images.files.[0]}}" alt="">
+                </div>
+                <div class="detail-box">
+                  <h5>
+                    {{this.Name}}
+                  </h5>
+                  <p>
+                    Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
+                  </p>
+                  <div class="options">
+                    <h6>
+                      ₹{{this.Price}}
+                    </h6>
+                    <button  onclick="addToFav('{{this._id}}')" class="btn btn-info">Add to Fav</button>
+                    <button  onclick="addToCart('{{this._id}}',{{this.Price}})" class="btn btn-warning">Add to cart</button>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+{{/each}}
+</div> 
+</div>  
+   
+
+   
+  
+</section>
+
+<!-- end food section -->
+<script>
+  function searchpdts(){
+    let searchKey = document.getElementById('search').value
+  
+    $.ajax({
+      url:'/searchInput',
+      method:'post',
+      data:{
+        searchKey
+      },    
+      success:(response)=>{
+        alert('aassdd')
+        location.reload()
+      }
+
+    })
+  }
+</script>

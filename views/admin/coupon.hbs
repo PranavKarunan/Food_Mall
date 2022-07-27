@@ -1,0 +1,121 @@
+<!-- Category -->
+<div class="viewProducts float-right mt-3 mr-3">
+    <a href="/admin/view-all-coupon" type="button" class="btn btn-primary">View All Coupon</a>
+</div>
+<div class="orders  p-5">
+    <div class="row">
+        <div class="col-xl-11 mx-auto category-top">
+            <div class="card">
+                <div class="full_container">
+                    <div class="inner_container">
+                        <!-- dashboard inner -->
+                        <h2 class="text-center  pt-5">Add Coupon</h2>
+                        {{#if success}}
+                        <p class="text text-center text-success">Coupon added Successfully</p>
+                        {{/if}}
+                        <div class="w-75 mx-auto mt-5">
+                            <form class="p-5 border mb-5" action="/admin/coupon" method="POST" id="couponForm">
+                                <div class="form-group">
+                                    <label for="inputProduct4">Coupon Code</label>
+                                    <input type="text" required class="form-control inpfield" name="couponCode" minlength="5" maxlength="5">
+                                    {{#if exist}}
+                                    <p class="text text-danger">Coupon code is already Exist</p>
+                                    {{/if}}
+                                    
+                                </div>
+
+                                <div class="form-group"> 
+                                    <label for="inputProduct4">Description</label>
+                                    <input type="text" id="defaultRegisterFormEmail" class="form-control"
+                                        name="description">
+                                </div>
+                                <div class="form-row mb-3">
+
+                                    <div class="form group col-md-6">
+                                        <label for="inputBrand4">Coupon Type</label>
+                                        <select name="couponType" class="form-control " >
+                                            <option value="none" selected>Choose Coupon type</option>
+                                            <option value="Percentage Discount">Percentage Discount</option>
+                                            <option value="Amount Discount">Amount Discount</option>
+                                          
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="inputBrand4">Coupon Value</label>
+                                        <input type="text" required class="form-control inpfield" name="couponValue">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-6">
+
+                                        <label for="inputStock4">Coupon Valid : From</label><br>
+
+                                        <input type="text" placeholder="DD-MM-YYYY" onfocus="(this.type='date')"  class="form-control inpfield" name="couponValidFrom">
+                                    </div>
+                                    <div class="form-group col-md-6">
+
+                                        <label for="inputPricek4">To</label>
+                                        <input type="text" placeholder="DD-MM-YYYY "  onfocus="(this.type='date')" required class="form-control inpfield" name="couponValidTo">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-row mb-3">
+
+                                    <div class="form-group col-md-6">
+                                        <label for="inputBrand4">Minimum Purchase Amount </label>
+                                        <input type="text" required class="form-control inpfield" name="minValue">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="inputBrand4">Maximum Purchase Amount </label>
+                                        <input type="text" required class="form-control inpfield" name="maxValue">
+                                    </div>
+
+                                </div>
+
+                                 <div class="form-row mb-3">
+
+                                    <div class="form-group col-md-6 mt-4">
+                                        <label for="inputBrand4">Usage limit for the coupon </label>
+                                        <input type="text" required class="form-control inpfield" name="limit">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="inputBrand4">No of times the user can use this discount </label>
+                                        <input type="text" required class="form-control inpfield" name="couponUsageLimit">
+                                    </div>
+
+
+                                </div>                 
+                             <div class="text-center mt-5">
+                                    <button type="submit" class="btn btn-primary">Add Coupon</button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+                        <!-- end dashboard inner -->
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- /.card -->
+    </div> <!-- /.col-lg-8 -->
+</div>
+</div>
+<!-- /.Category -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/
+    jquery/3.3.1/jquery.min.js">
+    </script>
+   
+ <script>
+   $("#couponForm").validate();
+</script>

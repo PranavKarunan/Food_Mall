@@ -1,0 +1,132 @@
+<style>
+    body {
+        background: rgb(99, 39, 120)
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #BA68C8
+    }
+
+    .profile-button {
+        background: rgb(99, 39, 120);
+        box-shadow: none;
+        border: none
+    }
+
+    .profile-button:hover {
+        background: #682773
+    }
+
+    .profile-button:focus {
+        background: #682773;
+        box-shadow: none
+    }
+
+    .profile-button:active {
+        background: #682773;
+        box-shadow: none
+    }
+
+    .back:hover {
+        color: #682773;
+        cursor: pointer
+    }
+
+    .labels {
+        font-size: 11px
+    }
+
+    .add-experience:hover {
+        background: #BA68C8;
+        color: #fff;
+        cursor: pointer;
+        border: solid 1px #BA68C8
+    }
+</style>
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="profile row" >
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
+                    width="150px"
+                    src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+                    class="font-weight-bold">{{User.firstName}}</span><span
+                    class="text-black-50">{{User.email}}</span><span>{{User.phonenumber}} </span></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+
+                <a href="/orders">My Orders</a>
+                <br>
+                <a href="/cart">My Cart</a>
+            </div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-center">Add New Address</h4>
+                </div>
+<form action="">
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label class="labels">Name</label>
+                        <input type="text" class="form-control" name="fname" id="fname" placeholder="first name" value="{{User.firstName}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">Surname</label>
+                        <input type="text" name="lname" class="form-control"  value="{{User.lastName}}" placeholder="surname">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="number" name="phone" 
+                            required class="form-control" placeholder="enter phone number" value="{{User.phonenumber}}">
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <label class="labels">Email ID</label>
+                        <input type="email" required class="form-control" name="email" placeholder="enter email id" value="{{User.email}}">
+                    </div>
+                    </div>
+                    
+                     
+
+                
+               
+                <div class="mt-5 text-center">
+                    <button class="btn btn-primary profile-button" onclick="updateUser('{{User._id}}','{{User.email}}','{{User.phonenumber}}','{{User.lastName}}','{{fname}}')" type="submit">Save Profile</button>
+       </form>         </div>
+    </div>
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+<script>
+    function updateUser(userId,email,mob,fname,lname){
+        console.log(email)
+        console.log(mob)
+        console.log(fname)
+        console.log(lname)
+        $.ajax({
+            url:'/updateProfile/',
+            method:'post',
+            data:{
+                id:userId,
+                email:email,
+                phoneNumber:mob,
+                firstName:fname,
+                lastName:lname
+            },
+            success:(response)=>{
+                console.log(response)
+                document.getElementById('fname').innerHTML=response.firstName;
+                document.getElementById('lname').innerHTML=  response.lastName;
+                document.getElementById('email').innerHTML =  response.email
+                document.getElementById('phonenumber').innerHTML =  response.phoneNumber
+            }
+        })
+    }
+</script>
+

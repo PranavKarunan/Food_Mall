@@ -1,0 +1,183 @@
+<section>
+    <div class="container mt-5">
+        <h3 class="text-center">List of Orders</h3>
+        <div class="table mt-5">
+
+            <table class="mt-5 text-center" id="table_id">
+                <thead>
+                    <tr>
+                        <th class="text-center">Number</th>
+                        <th class="text-center">Order Id</th>
+                        <th class="text-center">User</th>
+                        <th class="text-center">Address</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Payment Method</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Manage</th>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each allOrders}}
+                    <tr class="text-center">
+                        <td>{{inc @index}}</td>
+                        <td><small class="text-muted">{{this._id}}<br> </small>{{this.result.Name}} <br><small>Nos:{{this.products.quantity}}</small> </td>
+                        <td>{{this.userLookup.firstName}}</td>
+                        <td>{{this.userLookup.address.homeAddress}} <br> <small>{{this.userLookup.address.landMark}}</small><br> <small>{{this.userLookup.address.pincode}}</small><br> <small>{{this.userLookup.address.area}}</small></td>
+                        <td>{{this.products.price}}</td>
+                        <td>{{this.paymentMethod}}</td>
+                        <td>{{this.date}}</td>
+                        <td>
+                            
+                            {{#if this.products.cancelled}}
+                            
+                                <p class="text-muted">cancelled</p>
+                            {{else if this.products.delivered}} 
+                                        <p class="text-muted">Delivered</p>
+                           {{else if this.products.shipped}} 
+                            <div class="dropdown">
+                                <button class="dropbtn status">Status</button>
+                                <div class="dropdown-content">
+                                     
+                                   
+                                      
+                                    <button class="btn btn-outline-success status"
+                                        onclick="completeOrder('{{this._id}}','{{this.products.item}}')">Complete</button>
+                                    <button class="btn btn-outline-danger status"
+                                        onclick="cancelOrder('{{this._id}}','{{this.products.item}}')">Cancel</button>
+                                        
+
+                                </div>
+                            </div>
+                            {{else}}
+                            <div class="dropdown">
+                                <button class="dropbtn status">Status</button>
+                                <div class="dropdown-content">
+                                     
+                                    <button class="btn btn-outline-info status"
+                                        onclick="shipOrder('{{this._id}}','{{this.products.item}}')">Ship</button>
+                                      
+                                    <button class="btn btn-outline-success status"
+                                        onclick="completeOrder('{{this._id}}','{{this.products.item}}')">Complete</button>
+                                    <button class="btn btn-outline-danger status"
+                                        onclick="cancelOrder('{{this._id}}','{{this.products.item}}')">Cancel</button>
+                                        
+
+                                </div>
+                            </div>
+                            {{/if}}
+
+                        </td>
+
+                        <td>
+                                                         {{#if this.products.delivered}}
+                                                        <span class="badge badge-success">Complete</span>
+                                                        {{else if this.products.cancelled}}
+                                                        <span class="badge badge-danger">Cancelled</span>
+                                                        {{else if this.products.shipped}}
+                                                        <span class="badge badge-primary">Shipped</span>
+                                                        {{else}}
+                                                        <span class="badge badge-dark">Pending</span>
+                                                        {{/if}}
+                                                    </td>
+
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<script>
+    $(function () {
+        $("#table_id").dataTable();
+    });
+
+
+
+    function cancelOrder(orderId,productId) {
+        console.log(productId)
+        swal({
+        title: "Are you sure?",
+        text: "Product will be Cancelled for the user! press 'Esc' to cancel",
+        icon: "warning",
+        showConfirmation:false,
+        timer:15000
+      }) .then((willCancel) => {
+        if (willCancel) {
+        $.ajax({
+            url: '/admin/cancelOrder/',
+            data: { order:orderId, product:productId },
+            method: 'post',
+            success: (response) => {
+                
+                if (response) {
+
+                    location.reload()
+                }
+            }
+        })
+        }
+      })
+    }
+
+
+
+
+    function completeOrder(orderId,productId) {
+        console.log(productId)
+        swal({
+        title: "Are you sure?",
+        text: "Status will be changed to delivered ! press 'Esc' to cancel",
+        icon: "warning",
+        showConfirmation:false,
+        timer:15000
+      }) .then((willComplete) => {
+        if (willComplete) {
+        $.ajax({
+            url: '/admin/completeOrder/',
+            data: { order:orderId, product:productId },
+            method: 'post',
+            success: (response) => {
+                if (response) {
+
+                    location.reload()
+                }
+            }
+        })
+        }
+        })
+        
+    }
+    function shipOrder(orderId,productId) {
+      swal({
+        title: "Are you sure?",
+        text: "Product will be labelled as shipped! press 'Esc' to cancel",
+        icon: "warning",
+        showConfirmation:false,
+        timer:15000
+      }) .then((willDelete) => {
+        if (willDelete) {
+        $.ajax({
+            url: '/admin/shipOrder/',
+            data: { order:orderId, product:productId },
+            method: 'post',
+            success: (response) => {
+                if (response) {
+
+                    location.reload()
+                }
+            }
+        })
+        }
+      })
+    }
+
+</script>
