@@ -49,7 +49,7 @@ const CouponSchema = new mongoose.Schema({
         trim: true
     },
 
-
+    isDeleted:Boolean,
     
     users: [
 

@@ -201,3 +201,65 @@ jQuery.validator.addMethod("lettersonly", function (value, element) {
     color: red;
   }
 </style>
+
+
+<div class="modal fade" id="exampleModal{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enter Your Phone Number</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-gap"></div>
+        <div class="container">
+          <div class="row">
+           <div class="modal fade" id="exampleModal{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enter Your Phone Number</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-gap"></div>
+        <div class="container">
+          <div class="row">
+            <div class="container">
+    <form action="/otpvalidation" method="post">
+    <label for="otp">Enter Your otp:</label>
+    <input type="number" name="otp" id="otp" required minlength="6" maxlength="6">
+    <button
+    type="submit"
+    class="btn btn-outline-primary"
+    >
+    Submit
+    </button>
+    </form>
+    {{#if otpErr}}
+    <p  style="color: red; font-size: small;" >Incorrect otp</p>
+    {{/if}}
+</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

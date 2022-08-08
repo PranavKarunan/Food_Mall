@@ -422,7 +422,7 @@ module.exports = {
             }
             
           ]).exec()
-          console.log(4444444444444444444444444444)
+          
           console.log(orders)
           res(orders)
         }catch{
@@ -531,7 +531,7 @@ module.exports = {
           let orderId = objectId(data.order)
           console.log(prodId)
           return new Promise((res,rej)=>{
-            try{
+            
 
               Order.findOneAndUpdate({_id:orderId,'products.item':prodId},{
                $set:{
@@ -540,9 +540,7 @@ module.exports = {
               }).then(()=>{
                  res()
               })
-            }catch(error){
-              rej(error)
-            }
+          
               
               
               
@@ -623,7 +621,10 @@ module.exports = {
                 minValue:parseInt(data.minValue),
                 maxValue:parseInt(data.maxValue),
                 limit:parseInt(data.limit),
-                couponUsageLimit:parseInt(data.couponUsageLimit)
+                couponUsageLimit:parseInt(data.couponUsageLimit),
+                isDeleted:false 
+                  
+
                                        
               })
               
@@ -668,31 +669,110 @@ module.exports = {
           })
         },
 
+        getAmntCoupons:()=>{
+
+          return new Promise(async (res, rej) => {
+            try{
+  
+                let disCoupons = await Coupon.aggregate([{$match:{
+                    isDeleted:false,
+                    couponType:'Percentage Discount'
+                }},{
+                    $project: {
+                      couponCode:1,
+                      description:1,
+                      couponType:1,
+                      couponValue:1,
+                      couponValidFrom:1,
+                      couponValidTo:1,
+                      
+                      
+                    }
+                  
+                }])
+         
+          res(disCoupons)
+            }catch(error){
+              rej(error)
+            }
+      })
+
+        },
+
+        getPrcCoupons:()=>{
+
+          return new Promise(async (res, rej) => {
+            try{
+  
+                let percCoupons = await Coupon.aggregate([{$match:{
+                    isDeleted:false,
+                    couponType:'Amount Discount'
+                }},{
+                    $project: {
+                      couponCode:1,
+                      description:1,
+                      couponType:1,
+                      couponValue:1,
+                      couponValidFrom: { $dateToString: { format: "%Y-%m-%d", date: '$couponValidFrom' } },
+                couponValidTo: { $dateToString: { format: "%Y-%m-%d", date: '$couponValidTo' } }
+                      
+                      
+                    }
+                  
+                }])
+          console.log(percCoupons);  
+          res(percCoupons)
+            }catch(error){
+              rej(error)
+            }
+      })
+
+        },
+
+        deleteCoupon:(couponId)=>{
+          return new Promise( (res, rej) => {
+            
+          
+              Coupon.updateOne({_id:objectId(couponId)},{$set:{isDeleted:true}}).then((resp)=>{
+                console.log(resp)
+                res(resp)
+              })
+           
+            
+
+
+          })
+
+
+
+        },
+
         getTotalSale:()=>{
           return new Promise(async (res,rej)=>{
             try{
 
-              let totalSale =   Order.count()
-              // .aggregate([
+              let totalSale = await  Order.aggregate([
               
-            //   {
-            //     $unwind:'$products'
-            //   },
+              {
+                $unwind:'$products'
+              },
                 
-            //     {
-            //       $match:{
-            //         'products.delivered':true
-            //       }
-            //     },
-            //     {
-            //       $count:'Total'
-            //     }
+                {
+                  $match:{
+                    'products.delivered':true
+                  }
+                },
+                {
+                  $count:'Total'
+                }
                 
                 
-            //   ]).exec()
+              ]).exec()
               console.log('heyyy')
-              console.log(totalSale)
-              res(totalSale)
+              console.log(totalSale[0].Total)
+              let sale = totalSale[0].Total
+              
+              res(sale)
             }catch(error){
               rej(error)
             }
@@ -796,7 +876,7 @@ module.exports = {
                 let placedCount = placed.length
                 
                 statusData.push(placedCount)
-  
+                
                 console.log(statusData)
                 res(statusData)
   
@@ -839,6 +919,8 @@ module.exports = {
                 let cancelledCount = cancelled.length
                 
                 statusData.push(cancelledCount)
+
+                console.log(statusData)
               }catch(error){
                 rej(error)
               }

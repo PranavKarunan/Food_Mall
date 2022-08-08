@@ -1,0 +1,117 @@
+<style>
+body{
+    background:#eee;
+}
+
+.card {
+  width: auto;
+  padding: 10px;
+  border-radius: 20px;
+  
+  border: none;
+  color: #fff;
+  height: 350px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.amnt{
+background: orange;
+}
+
+.perc{
+  background: rgb(0, 225, 255);
+}
+
+.container {
+  height: auto;
+}
+
+.card h1 {
+  font-size: 30px;
+  margin-bottom: 0px;
+}
+
+.card span {
+  font-size: 28px;
+}
+
+.image {
+  position: absolute;
+  opacity: .1;
+  left: 0;
+  top: 0;
+}
+
+.image2 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: .1;
+}
+</style>
+    
+    
+    <div class="container ">
+    <div class="row">
+            {{#each amntCoupons}}
+        <div class="col-md-3">
+            <div class=" justify-content-center align-items-center container">
+        <div class="d-flex card amnt text-center">
+            <div class="image"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
+            
+            <h1><span class="text text-primary"> {{this.couponValue}}% </span ><span class="text text-danger">OFF</span> </h1><span class="d-block">{{this.description}}</span><span class="d-block"></span>
+            <div class="mt-4"><small>With Code : {{this.couponCode}}</small></div>
+        <button class="btn btn-outline-danger mt-3" onclick="deleteCoupon('{{this._id}}')">Delete</button>
+        </div>
+    </div>
+        </div>
+    {{/each}}
+    {{#each percCoupons}}
+        <div class="col-md-3">
+            <div class=" justify-content-center align-items-center container">
+        <div class="d-flex card perc text-center">
+            <div class="image"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
+            
+            <h1><span class="text text-primary">₹{{this.couponValue}} </span ><span class="text text-danger">OFF</span> </h1><span class="d-block">{{this.description}}</span><span class="d-block"></span>
+            <div class="mt-4"><small>With Code : {{this.couponCode}}</small></div>
+        <button class="btn btn-outline-danger mt-3" onclick="deleteCoupon('{{this._id}}')">Delete</button>
+        </div>
+    </div>
+        </div>
+    {{/each}}
+    </div>
+    </div>
+
+     
+    
+
+<script>
+  function deleteCoupon(couponid){
+    console.log(couponid)
+        swal({
+        title: "Are you sure?",
+        text: "Coupon will be Deleted! press 'Esc' to cancel",
+        icon: "warning",
+        showConfirmation:false,
+        timer:15000
+      }) .then((willDelete) => {
+        if (willDelete) {
+        $.ajax({
+            url: '/admin/deleteCoupon/',
+            data: { coupon:couponid },
+            method: 'post',
+            success: (response) => {
+                
+                if (response) {
+                  
+                    location.reload()
+                }
+            }
+        })
+        }
+      })
+  }
+</script> 

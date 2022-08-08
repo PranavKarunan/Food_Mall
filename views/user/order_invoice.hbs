@@ -1,0 +1,106 @@
+<div class="container mt-2 pt-5">
+    <center>
+        <h3>Invoice</h3>
+    </center>
+    <div class="row mt-2 pt-5">
+       
+        <div class="col-8  mx-auto mb-5">
+             <button onclick="generatePDF()" class="btn btn-success mb-2 ml-auto mr-5">Download as PDF</button>
+            <div class="card_invoice" style="width:auto ;border:1px solid" id="invoice">
+                <div class="card-body p-0">
+                    <div class="row p-5">
+                        <div class="col-md-6">
+                            <img src="/user/img/amlog.png" alt="" style="width : 50px; height: auto;">
+                            <p class="">Black & White</p>
+                        </div>
+
+                        <div class="col-md-6 text-right">
+                            <p class="font-weight-bold mb-1">Invoice #{{product._id}}</p>
+                            <p class="text-muted">Due to:{{product.date}}</p>
+                        </div>
+                    </div>
+
+                    <hr class="my-2">
+
+                    <div class="row pb-5 p-5">
+                        <div class="col-md-6">
+                            <p class="font-weight-bold mb-4">Client Information</p>
+                            <p class="mb-1">{{product.DeliveryDetails.FirstName}} {{this.DeliveryDetails.LastName}}</p>
+                            <p class="mb-1">{{product.DeliveryDetails.Address}}</p>
+                            <p class="mb-1">{{product.DeliveryDetails.Town}}</p>
+                            <p class="mb-1">{{product.DeliveryDetails.State}}</p>
+                            <p class="mb-1"> {{product.DeliveryDetails.Pin}}</p>
+                            <p class="mb-1">{{product.DeliveryDetails.Mob}}</p>
+                            <p class="mb-1">{{product.DeliveryDetails.Email}}</p>
+                        </div>
+
+                        <div class="col-md-6 text-right">
+                            <p class="font-weight-bold mb-4">Payment Details</p>
+                            <p class="mb-1"><span class="text-muted">Payment Type: </span>
+                                {{product.DeliveryDetails.PaymentMethod}}</p>
+
+
+                        </div>
+                    </div>
+
+                    <div class="row pr-5 pl-5 mb-5">
+                        <div class="col-md-12" style="overflow-x:auto;">
+                            <table class="table" id="invoice">
+                                <thead>
+                                    <tr>
+                                       
+                                        <th class="border-0 text-uppercase small font-weight-bold">Item</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">color</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{!-- {{#each products}} --}}
+                                    <tr>
+
+                                        <td>{{product.result.ProductName}}</td>
+                                        <td>{{product.result.Color}}</td>
+                                        <td>{{product.Products.Quantity}}</td>
+                                        <td>₹{{product.Products.Price}}</td>
+                                        <td>₹{{product.Products.totalPrice}}</td>
+                                    </tr>
+                                    {{!-- {{/each}} --}}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {{!-- H Hz, [01-08-2022 22:09] --}}
+
+
+
+                    <div class="d-flex flex-row-reverse bg-dark text-white p-4">
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Grand Total</div>
+                            <div class="h2 font-weight-light">₹{{product.Products.totalPrice}}</div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+    integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function generatePDF() {
+        // Choose the element that our invoice is rendered in.
+        const element = document.getElementById('invoice');
+        // Choose the element and save the PDF for our user.
+        html2pdf().from(element).save();
+    }
+</script>

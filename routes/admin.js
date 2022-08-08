@@ -3,7 +3,6 @@ var router = express.Router();
 var categoryHelpers = require("../helpers/categoryHelpers.js");
 var adminHelpers = require("../helpers/adminHelpers");
 var userHelpers = require("../helpers/userHelpers");
-const { response } = require("../app");
 const store = require("../middleware/multer");
 const mongoose = require('mongoose')
 const save = require('../middleware/bannerMulter')
@@ -99,6 +98,7 @@ router.get("/admin_dashboard", async(req, res, next) => {
       res.redirect('/admin/signin')
     }
   }catch(error){
+    console.log(error)
     next(error)
   }
 });
@@ -142,7 +142,7 @@ router.get("/category", (req, res) => {
   }
 });
 
-//add category
+
 
 router.post("/add-category", (req, res) => {
   try{
@@ -183,9 +183,10 @@ router.post("/edit-category/:id", (req, res) => {
   
 });
 
-router.get('/delete-category/:id',(req,res)=>{
+router.get('/delete-category/',(req,res)=>{
   try{
-
+    console.log(data)
+    console.log('12345674y89y83489u439u423u24u')
     let delId = mongoose.Types.ObjectId(req.params.id)
     console.log(delId)
     categoryHelpers.deleteCategory(delId).then((data)=>{
@@ -205,7 +206,7 @@ router.get("/products", function (req, res, next) {
 
     if (req.session.adminloggedIn) {
       adminHelpers.getAllProducts().then((products) => {
-        res.render("admin/view-products", { layout: "admin_layout",admin:true, products,remove:req.session.remove });
+        res.render("admin/view_products", { layout: "admin_layout",admin:true, products,remove:req.session.remove });
       })
       req.session.remove = false
     } else {
@@ -283,7 +284,7 @@ router.get('/edit-product/:id',async(req,res)=>{
        let id = mongoose.Types.ObjectId(req.params.id)
        let product = await adminHelpers.getoneProduct(id)
        console.log(id)
-       res.render('admin/edit-product',{layout:'admin_layout',admin:true,category,product})
+       res.render('admin/edit_product',{layout:'admin_layout',admin:true,category,product})
      }else{
        res.redirect('/admin/signin')
      }
@@ -333,7 +334,7 @@ router.get("/users", function (req, res, next) {
     );
     if (req.session.adminloggedIn) {
       adminHelpers.getAllUsers().then((users) => {
-        res.render("admin/view-users", { layout: "admin_layout",admin:true, users });
+        res.render("admin/view_users", { layout: "admin_layout",admin:true, users });
       });
     } else {
       res.redirect("/admin/signin");
@@ -370,10 +371,12 @@ router.get("/unblock-user/:id", (req, res) => {
 });
 
 
+
+
 router.get('/change_banner',(req,res)=>{
   try{
 
-    res.render('admin/newBanner',{ layout: "admin_layout",admin:true})
+    res.render('admin/new_banner',{ layout: "admin_layout",admin:true})
   }catch(error){
     next(error)
   }
@@ -407,7 +410,7 @@ router.get('/orders',async(req,res)=>{
     
     
   
-    res.render('admin/view-orders',{ layout: "admin_layout",admin:true, allOrders })
+    res.render('admin/view_orders',{ layout: "admin_layout",admin:true, allOrders })
   }catch(error){
     next(error)
   }
@@ -496,6 +499,21 @@ router.post('/coupon',(req,res)=>{
     next(error)
   }
 })
+
+router.get('/all-coupons',async(req,res)=>{
+  let amntCoupons = await adminHelpers.getAmntCoupons()
+  let percCoupons = await adminHelpers.getPrcCoupons()
+  
+  res.render('admin/view_coupons',{layout:'admin_layout',admin:true,amntCoupons,percCoupons})
+})
+
+router.post('/deleteCoupon',(req,res)=>{
+
+  adminHelpers.deleteCoupon(req.body.coupon).then((response)=>{
+    res.json(response)
+  })
+
+})                                                                                                                                                                                          
 
 //customer review
 

@@ -1,6 +1,5 @@
 var db = require("../config/connection");
 const Category = require("../models/category");
-const bcrypt = require("bcrypt");
 var mongoose = require('mongoose')
 
 module.exports= {
@@ -8,7 +7,8 @@ module.exports= {
     addCategory: (categoryData) => {
         console.log('log');
         let response={}
-        const cat = categoryData.categoryName
+        const newCat = categoryData.categoryName
+        const cat = newCat.toLowerCase()
         console.log(cat)
         return new Promise(async (res, rej) => {
             try{
@@ -31,7 +31,7 @@ module.exports= {
                     if(exist.isDeleted){
                         // console.log('dfghj');
                     
-                        await Category.updateOne({category:cat},{
+                        await Category.updateOne({category:newCat},{
                              $set:{
                                  isDeleted:false
                                  }

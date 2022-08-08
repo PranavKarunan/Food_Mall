@@ -69,13 +69,13 @@
                 data-target="#exampleModal{{this._id}}"
               >Edit
             </a>
-            <a
-                href="/admin/delete-category/{{this._id}}"
+            <button
+                {{!-- href="/admin/delete-category/{{this._id}}" --}}
                 class="btn btn-danger"
-                 onclick="return confirm('Are you sure want to Delete {{this.Name}}? It is not empty')"
-                 {{!-- onclick="catremove('{{this._id}}')" --}}
+                 {{!-- onclick="return confirm('Are you sure want to Delete {{this.Name}}? It is not empty')" --}}
+                 onclick="catDelete('{{this._id}}')"
               >Delete
-            </a>
+            </button>
             </td>
 
           </tr>
@@ -144,4 +144,47 @@
    
  <script>
    $("#categoryForm").validate();
+</script>
+
+<script>
+
+function catDelete(catId){
+  console.log(catId)
+   Swal({
+        title: "Are you sure?",
+        text: "Category will be Cancelled ! press 'Esc' to cancel the action",
+        icon: "warning",
+        showConfirmation:false,
+        timer:15000
+      }) .then((willDelete) => {
+        if (willDelete) {
+        $.ajax({
+            url: '/admin/deleteCategory/',
+            data: { categoryId:catId },
+            method: 'post',
+            success: (response) => {
+                
+                if (response) {
+                  const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        Toast.fire({
+            icon: 'error',
+            title: 'Invalid coupon'
+        })
+                    location.reload()
+                }
+            }
+        })
+        }
+      })
+}
 </script>

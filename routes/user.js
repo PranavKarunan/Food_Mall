@@ -6,7 +6,6 @@ const wishlist = require ('../models/wishlist');
 const userHelper = require("../helpers/userHelpers");
 const adminHelper = require("../helpers/adminHelpers");
 const categoryHelper = require("../helpers/categoryHelpers.js");
-const { response } = require("../app");
 const otp = require("../config/verify");
 let searchProducts;
 
@@ -218,7 +217,7 @@ router.get("/products", async function (req, res, next) {
       let User = req.session.user;
       let cartCount = await userHelper.getCartCount(req.session.user._id);
      
-          res.render("user/view-product", {
+          res.render("user/view_product", {
             layout: "user_layout",
             users: true,
             products,
@@ -230,7 +229,7 @@ router.get("/products", async function (req, res, next) {
       
     } else {
       
-      res.render("user/view-product", {
+      res.render("user/view_product", {
         layout: "user_layout",
         users: true,
         products,
@@ -313,7 +312,7 @@ router.get("/cart", async (req, res) => {
       
       console.log('hey '+total)
         let coupon= await adminHelper.getCoupon()
-        res.render("user/Cart", {
+        res.render("user/view_cart", {
           layout: "user_layout",
           cartProducts,
           users: true,
@@ -323,7 +322,7 @@ router.get("/cart", async (req, res) => {
           coupon
         });
       } else {
-        res.render("user/emptyCart", {
+        res.render("user/empty_cart", {
           layout: "user_layout",
           users: true,
           User,
@@ -459,7 +458,7 @@ router.get("/orderplaced", async(req, res) => {
   try{
 
     let cartCount = await userHelper.getCartCount(req.session.user._id);
-    res.render("user/order-success", {
+    res.render("user/order_success", {
       layout: "user_layout",
       users: true,
       User: req.session.user,
@@ -478,7 +477,7 @@ router.get("/orders", async (req, res) => {
      let orderedItems = await userHelper.getUserOrders(req.session.user._id);
      
      
-     res.render("user/orderList", {
+     res.render("user/order_list", {
        layout: "user_layout",
        users: true,
        User: req.session.user,
@@ -554,7 +553,7 @@ router.get('/updateProfile',async(req,res)=>{
 
    let User=req.session.user
    let cartCount = await userHelper.getCartCount(User._id);
-   res.render('user/userAccount',{layout:'user_layout',users:true,User,cartCount })
+   res.render('user/user_account',{layout:'user_layout',users:true,User,cartCount })
    
  }catch(error){
   next(error)
@@ -590,7 +589,7 @@ router.post('/profile',(req,res)=>{
 
 router.post('/forgotPassword',(req,res)=>{
   try{
-
+    console.log('hey this is forgot password')
     console.log(req.body)
     req.session.phone = req.body
     otp.dosms(req.body).then((response) => {
@@ -614,7 +613,7 @@ router.post("/otpCheck", (req, res) => {
    otp.otpVerify(req.body,req.session.phone).then((response) => {
      if (response.valid) {
        
-       res.render('user/passwordReset',{layout:'user_layout',users:true})
+       res.render('user/password_reset',{layout:'user_layout',users:true})
           
          } 
          else {
@@ -650,7 +649,7 @@ router.post('/resetPassword',async(req,res)=>{
 router.get("/about", async (req, res) => {
   try{
 
-    if (req.session.loggedIn) {
+   
       let User = req.session.user;
       let cartCount = await userHelper.getCartCount(req.session.user._id);
       res.render("user/about", {
@@ -660,9 +659,9 @@ router.get("/about", async (req, res) => {
         cartCount,
         User,
       });
-    } else {
+   
       res.redirect("/login");
-    }
+    
   }catch(error){
     next(error)
   }
@@ -693,7 +692,7 @@ router.get("/review", async (req, res) => {
   try{
 
     let cartCount = await userHelper.getCartCount(req.session.user._id);
-    res.render("user/customerReview", { layout: "admin_layout", cartCount });
+    res.render("user/customer_review", { layout: "admin_layout", cartCount });
   }catch(error){
     next(error)
   }

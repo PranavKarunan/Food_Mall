@@ -10,8 +10,6 @@ const Admin = require("../models/admin");
 const wishlist = require("../models/wishlist")
 
 const Razorpay = require("razorpay");
-const { Console } = require("console");
-const { response } = require("../app");
 const trim = require('moment')
 const Coupon = require("../models/coupon")
 require('dotenv').config()
@@ -155,7 +153,7 @@ module.exports = {
             },
           },
         ]).exec();
-  
+       
         console.log(cartPro);
   
         res(cartPro);
@@ -329,8 +327,7 @@ module.exports = {
         
        total = sum[0].total
         
-        console.log("here is total");
-        console.log(total)
+       
         res(total);
       }catch(error){
         rej(error)
@@ -495,7 +492,9 @@ module.exports = {
   },
 
   checkout: (order, product, total, User) => {
+    console.log('-----------------------------------------------')
     console.log(order)
+    console.log('-----------------------------------------------')
     return new Promise(async (res, rej) => {
       try{
 
@@ -522,7 +521,7 @@ module.exports = {
             },
           },
         ]);
-       
+        console.log(prods)
         let dateIso = new Date()
         let date = trim(dateIso).format("YYYY-MM-DD")
   
@@ -554,10 +553,10 @@ module.exports = {
           console.log(response[0]._id);
           res(response[0]._id);
         });
-  
-        // product.updateOne({
-  
-        // })
+        console.log('------------------9-----------------------------') 
+        product.findOne({_id:'$prods.item'})
+        console.log(pd)
+        console.log('------------------------8-----------------------')
       }catch(error){
         rej(error)
       }
